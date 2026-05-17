@@ -27,9 +27,11 @@ export interface ConnectionState {
   stopReconnecting: () => void;
 }
 
+// KISS fork: defaults wired straight to mcp-discord's built-in streamable-http
+// transport (run with `node build/index.js --transport http`).
 const defaultServerConfig: ServerConfig = {
-  uri: 'http://localhost:3006/sse', // Default from migration guide, should be configurable
-  connectionType: 'sse',
+  uri: 'http://localhost:8080/mcp',
+  connectionType: 'streamable-http',
   timeout: 5000, // ms
   retryAttempts: 3,
   retryDelay: 2000, // ms

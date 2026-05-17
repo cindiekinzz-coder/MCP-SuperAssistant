@@ -1269,7 +1269,10 @@ export const renderFunctionCall = (block: HTMLPreElement, isProcessingRef: { cur
 
   if (isJSONFormat) {
     const jsonInfo = extractJSONFunctionInfo(rawContent);
-    functionName = jsonInfo.functionName || 'function';
+    // KISS fork: fall back to the name that containsJSONFunctionCalls already
+    // extracted (functionInfo.invokeName) when the second-pass line-by-line
+    // parser trips on DOM noise from Gemini/ChatGPT code-block decorations.
+    functionName = jsonInfo.functionName || (functionInfo.invokeName as string) || 'function';
     callId = jsonInfo.callId || `block-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
     description = jsonInfo.description;
     partialParameters = extractJSONParameters(rawContent);

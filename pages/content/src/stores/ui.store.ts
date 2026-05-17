@@ -40,18 +40,20 @@ export interface UIState {
 const initialSidebarState: SidebarState = {
   isVisible: true, // Default to visible for first-time users; persisted value will override for returning users
   isMinimized: false,
-  position: 'left',
-  width: 320, // Default width from app.store, could be synced or independent
+  position: 'right', // ChatGPT's own conversation-history sidebar is on the left, ours goes right
+  width: 320,
 };
 
 const initialUserPreferences: UserPreferences = {
-  autoSubmit: false,
-  autoInsert: false,   // New automation field
-  autoExecute: false,  // New automation field
+  // KISS fork: auto-execute and auto-submit ON by default. Gremy emits the
+  // tool call, the bridge runs it, the result lands in chat without a click.
+  autoSubmit: true,
+  autoInsert: false,   // leave manual — user picks WHEN to insert the prompt
+  autoExecute: true,   // auto-run detected tool calls instead of needing Run button
   notifications: true,
   theme: 'system', // Default theme
   language: navigator.language || 'en-US',
-  isPushMode: false,
+  isPushMode: true,   // see comment below — activates the recovery sweep
   sidebarWidth: 320,
   isMinimized: false,
   customInstructions: '',
@@ -60,6 +62,9 @@ const initialUserPreferences: UserPreferences = {
   autoExecuteDelay: 2,  // Default delay in seconds
   autoSubmitDelay: 2,   // Default delay in seconds
 };
+
+// KISS fork: push mode ON by default — activates the SidebarRecovery sweep that
+// keeps the sidebar visible against ChatGPT's React tree tear-downs.
 
 const initialState: Omit<UIState, 'toggleSidebar' | 'toggleMinimize' | 'resizeSidebar' | 'setSidebarVisibility' | 'updatePreferences' | 'addNotification' | 'addRemoteNotification' | 'removeNotification' | 'dismissNotification' | 'clearNotifications' | 'openModal' | 'closeModal' | 'setGlobalLoading' | 'setTheme' | 'setMCPEnabled'> = {
   sidebar: initialSidebarState,
@@ -295,7 +300,10 @@ export const useUIStore = create<UIState>()(
         },
       }),
       {
-        name: 'mcp-super-assistant-ui-store',
+        // KISS fork: bumped key so old MCP-SuperAssistant localStorage entries
+        // (autoExecute=false, position=left, isPushMode=false) get orphaned
+        // and our new defaults actually take effect.
+        name: 'gremy-discord-bridge-ui-store-v1',
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           // Persist sidebar state and user preferences

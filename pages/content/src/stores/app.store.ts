@@ -95,7 +95,7 @@ export const useAppStore = create<AppState>()(
         },
       }),
       {
-        name: 'mcp-super-assistant-app-store', // Unique name for localStorage
+        name: 'gremy-discord-bridge-app-store-v1', // KISS fork: bumped key to orphan old persisted state
         storage: createJSONStorage(() => localStorage), // Specify localStorage
         partialize: (state) => ({
           // Only persist globalSettings and sidebarWidth from uiStore (example)

@@ -115,8 +115,8 @@ class McpClient {
           logMessage(`[McpClient] Failed to get server config: ${configError instanceof Error ? configError.message : String(configError)}`);
           // Use default config if loading fails
           useConnectionStore.getState().setServerConfig({
-            uri: 'http://localhost:3006/sse',
-            connectionType: 'sse',
+            uri: 'http://localhost:8080/mcp',
+            connectionType: 'streamable-http',
             timeout: 5000,
             retryAttempts: 3,
             retryDelay: 2000

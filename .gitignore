@@ -16,6 +16,8 @@ tsconfig.tsbuildinfo
 # env
 **/.env.*
 **/.env
+# KISS fork: bridge-side runtime env (holds DISCORD_TOKEN)
+bridge.env
 
 # etc
 .DS_Store

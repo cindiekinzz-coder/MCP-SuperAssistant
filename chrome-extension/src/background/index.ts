@@ -42,13 +42,15 @@ import { createLogger } from '@extension/shared/lib/logger';
 
 const logger = createLogger('BACKGROUND');
 
-const DEFAULT_SSE_URL = 'http://localhost:3006/sse';
-const DEFAULT_WEBSOCKET_URL = 'ws://localhost:3006/message';
-const DEFAULT_STREAMABLE_HTTP_URL = 'http://localhost:3006';
+// KISS fork: wired straight to mcp-discord's built-in streamable-http transport
+// running on localhost:8080/mcp (`node build/index.js --transport http`).
+const DEFAULT_SSE_URL = 'http://localhost:8080/sse';
+const DEFAULT_WEBSOCKET_URL = 'ws://localhost:8080/message';
+const DEFAULT_STREAMABLE_HTTP_URL = 'http://localhost:8080/mcp';
 
 // Connection type management
 type ConnectionType = TransportType;
-const DEFAULT_CONNECTION_TYPE: ConnectionType = 'sse';
+const DEFAULT_CONNECTION_TYPE: ConnectionType = 'streamable-http';
 
 // Remote Config Manager
 let remoteConfigManager: RemoteConfigManager | null = null;
@@ -86,7 +88,7 @@ async function initializeServerConfig(): Promise<void> {
   } catch (error) {
     logger.warn('[Background] Failed to load server config from storage, using defaults:', error);
     connectionType = DEFAULT_CONNECTION_TYPE;
-    serverUrl = DEFAULT_SSE_URL;
+    serverUrl = DEFAULT_STREAMABLE_HTTP_URL;
     isInitialized = true;
   }
 }

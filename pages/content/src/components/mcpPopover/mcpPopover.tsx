@@ -1141,7 +1141,7 @@ export const MCPPopover: React.FC<MCPPopoverProps> = ({ toggleStateManager, adap
           className={adapterButtonConfig.iconClassName || ''}
         style={{ width: '20px', height: '20px', borderRadius: '50%' }}
         />
-      <span className={adapterButtonConfig.textClassName || ''}>MCP</span>
+      <span className={adapterButtonConfig.textClassName || ''}>Discord</span>
     </span>
   ) : (
     <>
@@ -1163,7 +1163,7 @@ export const MCPPopover: React.FC<MCPPopoverProps> = ({ toggleStateManager, adap
       >
         <button
           className={buttonClassName}
-          aria-label={`MCP Settings - ${state.mcpEnabled ? 'Active' : 'Inactive'}`}
+          aria-label={`Discord Bridge Settings - ${state.mcpEnabled ? 'Active' : 'Inactive'}`}
           title={`MCP Settings - ${state.mcpEnabled ? 'Sidebar Visible' : 'Sidebar Hidden'}`}
           type="button"
           ref={buttonRef}
@@ -1277,7 +1277,7 @@ export const MCPPopover: React.FC<MCPPopoverProps> = ({ toggleStateManager, adap
               background: theme.mainBackground,
               boxSizing: 'border-box',
             }}>
-            <ToggleItem id="mcp-toggle" label="MCP" checked={state.mcpEnabled} disabled={false} onChange={handleMCP} />
+            <ToggleItem id="mcp-toggle" label="Discord Bridge" checked={state.mcpEnabled} disabled={false} onChange={handleMCP} />
             <ToggleItem
               id="auto-insert-toggle"
               label="Auto Insert"
